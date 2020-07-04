@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_meeting"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_meeting_room_24"
+        android:title="시작"
+        />
+    <item
+        android:id="@+id/action_callback"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_phone_callback_24"
+        android:title="부재중"
+        />
+    <item
+        android:id="@+id/action_meg"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_message_24"
+        android:title="입력"
+        />
+    <item
+        android:id="@+id/action_option"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="옵션"
+        />
+
+</menu>
