@@ -2,6 +2,7 @@ package com.example.importantcall;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Trace;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
@@ -21,10 +22,11 @@ public class Frag1 extends Fragment {
     ToggleButton toggleButton_start;
     private View view;
     private int Pyth;
+    Thread thread;
+    boolean isThread = false;
     ImageView imageView;
     SwitchCompat switchCompat;
     TelephonyManager telephonyManager;
-    private boolean set_btn = false;
     PhoneStateListener phoneStateListener = new PhoneStateListener(){
         @Override
         public void onCallStateChanged(int state, String phoneNumber) {
@@ -58,19 +60,27 @@ public class Frag1 extends Fragment {
             @Override
             public void onClick(View view) {
                 if(toggleButton_start.isChecked()){
-                    set_btn = true;
-                        if (set_btn == true){
-                            imageView.setImageResource(R.drawable.ic_baseline_blur_off_24);
-                            telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-                            telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
-                        }
-                } else {
-                        set_btn = false;
-                        imageView.setImageResource(R.drawable.ic_baseline_blur_on_24);
+                    imageView.setImageResource(R.drawable.ic_baseline_blur_off_24);
+                    isThread = true;
+                    thread = new Thread(){
+                        public void run() {
+                            while (isThread) {
+                                telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+                                telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
 
-                    
+                            }
+
+                        }
+                };thread.start();
+                } else {
+                    isThread = false;
+                    imageView.setImageResource(R.drawable.ic_baseline_blur_on_24);
                 }
+
+
                 }
+
+
         });
         /*switchCompat.setOnClickListener(new View.OnClickListener() {
             @Override
