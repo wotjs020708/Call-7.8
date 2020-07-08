@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 public class Frag1 extends Fragment {
     ToggleButton toggleButton_start;
     private View view;
+    private int Pyth;
     ImageView imageView;
     SwitchCompat switchCompat;
     TelephonyManager telephonyManager;
