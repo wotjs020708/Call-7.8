@@ -43,11 +43,11 @@ public class Frag1 extends Fragment {
     boolean isThread = false;
     ImageView imageView;
     SwitchCompat switchCompat;
-    TelephonyManager telephonyManager;
     private Intent intent;
     private Context context;
     Bundle bundle = this.getArguments();
-    AudioManager audioManager;
+    String str;
+    String call_number;
 
     private void HiSendMessage(String phoneNo, String sms )
     {
@@ -55,50 +55,13 @@ public class Frag1 extends Fragment {
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(phoneNo, null, sms, null, null);
     }
-        PhoneStateListener phoneStateListener = new PhoneStateListener(){
-                public void onCallStateChanged(int state, String phoneNumber) {
-                    switch(state)
-                    {
-                case TelephonyManager.CALL_STATE_IDLE :
-                    Toast.makeText(getActivity(),"통화x",Toast.LENGTH_SHORT).show();
-                    break;
-                case TelephonyManager.CALL_STATE_RINGING :
-                    Toast.makeText(getActivity(),"폰이울림",Toast.LENGTH_SHORT).show();
-                    NotificationManager notificationManager =
-                            (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                            && !notificationManager.isNotificationPolicyAccessGranted()) {
 
-                        Intent intent = new Intent(
-                                android.provider.Settings
-                                        .ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-
-                        startActivity(intent);
-                    }
-                    audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT); //무음모드로 변경
-                    String incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                    final String phone_number = PhoneNumberUtils.formatNumber(incomingNumber);
-                  String str2 = bundle.getString("meg");
-                    Toast.makeText(getActivity(),phone_number,Toast.LENGTH_SHORT).show();
-                   Toast.makeText(getActivity(),str2,Toast.LENGTH_SHORT).show();
-
-                    //HiSendMessage(phone_number, str2);
-                    break;
-
-                case TelephonyManager.CALL_STATE_OFFHOOK :
-                    Toast.makeText(getActivity(),"통화중",Toast.LENGTH_SHORT).show();
-
-                    break;
-                default:break;
-
-            }
-        }
-    };
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        str = bundle.getString("phone_number");
+        Bundle bundle = intent.getExtras();
         view = inflater.inflate(R.layout.frag1, container, false);
         imageView = (ImageView) view.findViewById(R.id.imageView);
         //switchCompat = (SwitchCompat) view.findViewById(R.id.switchButton);
@@ -109,19 +72,12 @@ public class Frag1 extends Fragment {
             public void onClick(View view) {
                 if(toggleButton_start.isChecked()){
                     imageView.setImageResource(R.drawable.ic_baseline_blur_off_24);
-                    isThread = true;
-                    thread = new Thread(){
-                        public void run() {
-                            while (isThread) {
-                                telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-                                telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
 
-                            }
 
-                        }
-                };thread.start();
+                    Toast.makeText(getActivity(),str,Toast.LENGTH_SHORT).show();
+
+
                 } else {
-                    isThread = false;
                     imageView.setImageResource(R.drawable.ic_baseline_blur_on_24);
                 }
 

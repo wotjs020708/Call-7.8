@@ -32,25 +32,24 @@ public class MainActivity extends AppCompatActivity {
     private Frag2 frag2;
     private Frag3 frag3;
     private Frag4 frag4;
-    private  Context mContext;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        NotificationManager notificationManager;
-        notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
         TedPermission.with(getApplicationContext())
                 .setPermissionListener(permissionListener)
                 .setRationaleMessage("권한필요합니다.")
                 .setDeniedMessage("거부하셨습니다.")
-                .setPermissions(Manifest.permission.ACCESS_NOTIFICATION_POLICY
-                        , Manifest.permission.SEND_SMS
+                .setPermissions(
+                         Manifest.permission.SEND_SMS
                         ,Manifest.permission.CALL_PHONE
-                        ,Manifest.permission.VIBRATE,
-                        Manifest.permission.BIND_NOTIFICATION_LISTENER_SERVICE)
+                        ,Manifest.permission.READ_PHONE_STATE
+                        )
                         .check();
+
 
         bottomNavigationView = findViewById(R.id.bottomNavi);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
